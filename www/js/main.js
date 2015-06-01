@@ -315,8 +315,6 @@ function badge() {
 
 	booklist.prototype.updateBookList = function() {
 		sfuExplorer.template7Data.books = this.m_bookList;
-		console.log(sfuExplorer.template7Data.books);
-
 		var tempHTML = Template7.templates.BookListScript(this.m_bookList);
 		$$('.page[data-page="booklist"] .page-content .list-block').html(tempHTML);
 		g_stringHelper.updateUI();
@@ -353,7 +351,7 @@ function badge() {
 			g_bookList.m_bookList = results;	
 			g_bookList.m_bookCount = results.length;
 			console.log(g_bookList.m_bookList);
-			console.log(results);		
+		
 			//show and update prof list
 			g_bookList.updateBookList();
 			// PTR Done
@@ -407,7 +405,7 @@ function badge() {
 			// clear search bar
 			$$('.searchbar-input input')[0].value = '';
 			// Update local storage data
-			console.log("here1");
+			console.log("getTutorList");
 			g_tutorList.m_tutorList = results;
 			g_tutorList.m_tutorCount = results.length;
 			//show and update prof list

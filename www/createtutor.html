@@ -28,26 +28,26 @@
                     <div class = "redlabel">
                     	<p><font color="red">* required field.</font></p>
                     </div>                    
-                    <form id = "uploadTutor" method="post" action="http://evilnut.ca/App/APIs/sfu_app/sfuapp/sql/createtutor.php" enctype="multipart/form-data">
+                    <form id = "uploadTutor" method="post"  enctype="multipart/form-data" onSubmit="return submitTutorForm();">
     					<div class="submitform">
 						  <ul>
                             <li><div class="formLeft"><span class = "strContactName">Name: </span></div>
-                                <div class="formRight"><input type = "text" name = 'tutorName' required > 
+                                <div class="formRight"><input type = "text"  name = 'tutorName' required > 
                                 <font color="red">*</font></div>
                             </li>
 
                             <li><div class="formLeft"><span class = "strCourseName">Course: </span></div>
-                                <div class="formRight"><input type = "text" name = "tutorCourse" required placeholder="(e.g MATH 100)">
+                                <div class="formRight"><input type = "text"  name = "tutorCourse" required placeholder="(e.g MATH 100)">
                                 <font color="red">*</font></div>
                             </li>
 
                             <li><div class="formLeft"><span class = "strContactEmail">Email: </span></div>
-                                <div class="formRight"><input type = "email" name = 'email' required> 
+                                <div class="formRight"><input type = "email"  name='email' required> 
                                 <font color="red">*</font></div>
                             </li>   
                             
                             <li><div class="formLeft"><span class = "strContactPhone">Telephone: </span></div>
-                                <div class="formRight"><input type = "text" name ='telephone' required maxlength="10"> 
+                                <div class="formRight"><input type = "text"  name='telephone' required maxlength="10"> 
                                 <font color="red">*</font></div>
                             </li>
 
@@ -58,7 +58,7 @@
                        	</div>
                     	<div class = "formButton">
                             <div class="primaryBtn">
-                            	<button  id="submitBtn" type="submit" value="Submit" name="submitBtn" onclick="alertMsg.render('Submitted','OK')">Submit</button>
+                            	<button  id="submitBtn" type="submit" value="Submit" name="submitBtn" >Submit</button>
                             </div>
                             <div class="secondaryBtn">
                             	<button id="resetBtn" type="reset" value="Reset">Reset</button>
@@ -67,11 +67,19 @@
 
                     </form>
 
+
+                    <div class="tutorReturnValue">
+                    ReturnID: <div id="tutorReturnID"></div>
+                    EditKey: <div id="tutorEditKey"></div> 
+                    </div>
+                                            
+
+
+
+
+
                 </div>
             </div>
         </div>
-
-        </div>
-
-
+    </div>
 </div>
