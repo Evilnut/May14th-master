@@ -1,13 +1,14 @@
 <?php
 
-header("Access-Control-Allow-Origin: *");
 error_reporting(0);
-/**
- * Created by PhpStorm.
- * User: kris
- * Date: 2015/4/22
- * Time: 11:26
- */
+header("Access-Control-Allow-Origin: *");
+
+
+
+/* Define text data get from createbook.html page */
+$bookID = $name = $author = $edition = $seller = $description = $OriginalPrice 
+= $CurrentPrice = $Telephone = $Email =$imgData="";
+
 
 function test_input($data){
    $data = trim($data);
@@ -17,7 +18,7 @@ function test_input($data){
 }
 
 
-//Define EditKey for book
+/* Generate EditKey for book */
 function createEditKey() {
    $randomKey = md5(uniqid(mt_rand(), true));
    $editKey = substr($randomKey,0,4);
@@ -26,7 +27,7 @@ function createEditKey() {
 
 
 $bookKey = createEditKey();
-
+  
 //Define ID for book
         // function create_GUID() {
         //     $charId = strtoupper(md5(uniqid(mt_rand(), true)));
@@ -43,12 +44,10 @@ $bookKey = createEditKey();
 
         // $bookID = create_GUID();
 
-//Define text data get from createbook.html page
-$bookID = $name = $author = $edition = $seller = $description = $OriginalPrice 
-= $CurrentPrice = $Telephone = $Email ="";
 
 
-//Get and validate data from createbook.html page
+ 
+/* Get and validate data from createbook.html page */
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $name = test_input($_POST['bookName']);
     $author = test_input($_POST['bookAuthor']);
@@ -65,15 +64,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $CurrentPrice = test_input(floatval($_POST['CurrentPrice']));
     $Telephone = test_input($_POST['telephone']);
     $Email = test_input($_POST['email']);
+
+    //Get book image information
+    $imgFile = $_FILES['fileToUpload'];
 }
 
 
-Global $imgData;
+/********connect to database*********/
+//$mysqli = mysqli_connect('166.62.37.246','appusers','connected','sfuapp');
+$mysqli = mysqli_connect('localhost','root','123456','sfuapp');
+if (mysqli_connect_errno()) {
+    printf("Connect failed: %s\n", mysqli_connect_error());
+    exit();
+}
 
-//Get book image information
-$imgFile = $_FILES['fileToUpload'];
 
 
+
+/* If there is an image provided */
 if(is_array($imgFile)) {
     $fname = $imgFile['name'];  //get image name
     $type = $imgFile['type']; //get image type
@@ -90,49 +98,47 @@ if(is_array($imgFile)) {
     }
 
 
-    /********connect to database*********/
-    //$mysqli = mysqli_connect('166.62.37.246','appusers','connected','sfuapp');
-    $mysqli = mysqli_connect('localhost','root','123456','sfuapp');
-    if (mysqli_connect_errno()) {
-        printf("Connect failed: %s\n", mysqli_connect_error());
-        exit();
-    }
-
-
     /********INSERT value into database*********/
-    $sql = "INSERT INTO `sfuapp`.`books` (`ID`,`Name`, `Author`,`Edition`, `Seller`, `Description`, `Email`, `Telephone`, `OriginalPrice`, `CurrentPrice`, `Image`, `EditKey`) VALUES('$bookID','$name', '$author','$edition','$seller','$description','$Email','$Telephone', $OriginalPrice, $CurrentPrice , '$imgData', '$bookKey')";
+    $sql = "INSERT INTO `sfuapp`.`books` (`ID`,`Name`, `Author`,`Edition`, `Seller`, `Description`, `Email`, `Telephone`, `OriginalPrice`, `CurrentPrice`, `Image`, `EditKey`, `Timestamp`) VALUES('$bookID','$name', '$author','$edition','$seller','$description','$Email','$Telephone', $OriginalPrice, $CurrentPrice , '$imgData', '$bookKey', null)";
     mysqli_query($mysqli, $sql);
 
-
-
-    /********Echo back a response*********/
-    $query = "SELECT ID, EditKey FROM books ORDER BY ID DESC LIMIT 1 ";
-    if ($result = mysqli_query($mysqli, $query)) {
-        $out = array();
-
-        while ($row = $result->fetch_assoc()) {
-            $out[] = $row;
-        }
-
-        /* encode array as json and output it for the ajax script*/
-        echo json_encode($out);
-
-        /* free result set */
-        mysqli_free_result($result);
-
-    }    
-
-    //Close connection
-    $mysqli->close();
+}else{
+    /* no book image is provided */
+    $imgData="";
+    $sql = "INSERT INTO `sfuapp`.`books` (`ID`,`Name`, `Author`,`Edition`, `Seller`, `Description`, `Email`, `Telephone`, `OriginalPrice`, `CurrentPrice`, `Image`, `EditKey`, `Timestamp`) VALUES('$bookID','$name', '$author','$edition','$seller','$description','$Email','$Telephone', $OriginalPrice, $CurrentPrice , '$imgData', '$bookKey', null)";
+    mysqli_query($mysqli, $sql);
 
 }
+
+
+
+/********Echo back a response*********/
+$query = "SELECT ID, EditKey FROM books ORDER BY ID DESC LIMIT 1 ";
+if ($result = mysqli_query($mysqli, $query)) {
+    $out = array();
+
+    while ($row = $result->fetch_assoc()) {
+        $out[] = $row;
+    }
+
+    /* encode array as json and output it for the ajax script*/
+    echo json_encode($out);
+
+    /* free result set */
+    mysqli_free_result($result);
+
+}    
+
+//Close connection
+$mysqli->close();
+
+
 
 
 //return to previous page after submit button is pressed
 if(isset($_POST['submitBtn'])){
       unset($_POST['submitBtn']);
       //header('Location:javascript://history.go(-1)');
-
 }
 
 

@@ -5,7 +5,7 @@ function submitTutorForm(){
      $( document ).ready( function() {
 
 
-        console.log("tutorForm"); 
+        console.log("submitTutorForm"); 
 
         /* attach a submit handler to the form */
         $(document).on("submit","#uploadTutor",function(event){
@@ -13,14 +13,65 @@ function submitTutorForm(){
         //$("#uploadTutor").submit(function(event) {
 
             console.log("uploadTutor");
+
             /* stop form from submitting normally */
             event.preventDefault();
+
+
+                     
+            /* validate the form */
+            var tutorName = document.forms["uploadTutor"]["tutorName"].value;
+            if (tutorName == null || tutorName == "") {
+                alertMsg.render('Name must not be empty','OK');  
+                return false;
+            }
+
+            var tutorCourse = document.forms["uploadTutor"]["tutorCourse"].value;
+            if (tutorCourse == null || tutorCourse == "") {
+                alertMsg.render('Course must not be empty','OK');  
+                return false;
+            }
+
+            var email = document.forms["uploadTutor"]["email"].value;
+            if (email == null || email == "") {
+                alertMsg.render('Email must not be empty','OK');
+                return false;
+            }
+
+            var telephone = document.forms["uploadTutor"]["telephone"].value;
+            if (telephone == null || telephone == "") {
+                alertMsg.render('Telephone must not be empty','OK');
+                return false;
+            }
+
+            var tutorCourseRegex = /^[A-Za-z ]+[0-9]+.$/;
+            if( !tutorCourseRegex.test(tutorCourse))
+            {
+                alertMsg.render('Please enter a valid course ID e.g Math 100','OK');
+                return false;
+            }
+
+            var emailRegex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+            if( !emailRegex.test(email))
+            {
+                alertMsg.render('Please enter a valid email address','OK');
+                return false;
+            }
+
+            var telephoneRegex = /[0-9]{10}/;
+            if( !telephoneRegex.test(telephone))
+            {
+                alertMsg.render('Please enter a valid 10 digit phone number','OK');
+                return false;
+            }
+
+
+
 
             // Abort any pending request
             if (tutorRequest) {
                 tutorRequest.abort();
             }
-                            
 
             /* get some values from elements on the page: */
             var $form = $(this);
@@ -31,12 +82,19 @@ function submitTutorForm(){
             // Serialize the data in the form
             var serializedData = $form.serialize();                     
 
-                
+            // Let's disable the inputs for the duration of the Ajax request.
+            // Note: we disable elements AFTER the form data has been serialized.
+            // Disabled form elements will not be serialized.
+            $inputs.prop("disabled", true);   
+            
+
+
             /* Send the data using ajax */
             tutorRequest = $.ajax({
                 url: "php/createtutor.php",
-                type: "post",
+                type: "POST",
                 data: serializedData
+
             });
 
 
@@ -80,9 +138,23 @@ function submitTutorForm(){
 
             });
 
+
+
         });
     });
 
     //return false to avoid form from submitting normally
+    return false;
+}
+
+
+/* 
+ * another way to submit tutor form
+ * Implementation of AJAXSubmit can be found in createbook.js
+ */
+function submitTutorForm2(){
+    console.log("submitTutorForm2");
+    AJAXSubmit(document.getElementById("uploadTutor"));
+
     return false;
 }

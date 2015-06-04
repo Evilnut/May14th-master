@@ -400,7 +400,7 @@ function badge() {
 			
 			$$('.preloader-progress').text("Loading...");
 
-			results = getJson("http://evilnut.ca/App/APIs/sfu_app/sfuapp/sql/gettutorjson.php");
+			results = getJson("php/gettutorjson.php");
 			
 			// clear search bar
 			$$('.searchbar-input input')[0].value = '';

@@ -43,7 +43,8 @@ if (mysqli_connect_errno()) {
 
 
 /********INSERT value into database*********/
-$sql = "INSERT INTO `sfuapp`.`tutors` (`ID`,`Name`, `Course`,`Email`, `Telephone`, `Description`,`EditKey`) VALUES('','$name', '$course', '$email', '$telephone', '$description','$tutorKey')";
+$sql = "INSERT INTO `sfuapp`.`tutors` (`ID`,`Name`, `Course`,`Email`, `Telephone`, `Description`,`EditKey`,
+  `Timestamp`) VALUES('','$name', '$course', '$email', '$telephone', '$description','$tutorKey', null)";
 mysqli_query($mysqli, $sql);
 
 

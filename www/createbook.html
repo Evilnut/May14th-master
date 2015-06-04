@@ -32,7 +32,7 @@
                     </div>
 
 <!--action="http://evilnut.ca/App/APIs/sfu_app/sfuapp/sql/creatbook.php"-->
-                    <form id = "uploadBook" method="post" enctype="multipart/form-data" onSubmit="return submitBookForm()">               
+                    <form id = "uploadBook" method="post" enctype="multipart/form-data" action="php/createbook.php" onSubmit="return submitBookForm();">               
                     	<div class = "submitform">
                         	<ul>
                             	<li>
@@ -41,47 +41,47 @@
                             	</li>
 
                             	<li><div class = "formLeft" ><span class = "strBookName">Book Name: </span></div>
-                                	<div class = "formRight"><input type = "text" name="bookName" required>
+                                	<div class = "formRight"><input type = "text" name="bookName"  maxlength="64">
                                 	<font color="red">*</font>
                                 	</div>
                             	</li>
 
                             	<li><div class = "formLeft" ><span class = "strAuthorName">Author: </span></div>
-                                	<div class = "formRight"><input type = "text" name = "bookAuthor"></div>
+                                	<div class = "formRight"><input type = "text" name = "bookAuthor" maxlength="32"></div>
                             	</li>
 
                             	<li><div class = "formLeft" ><span class = "strSeller">Seller: </span></div>
-                                	<div class = "formRight"><input type = "text" name = "seller" required>
+                                	<div class = "formRight"><input type = "text" name = "seller" maxlength="32">
                                 	<font color="red">*</font>
                                 	</div>
                             	</li>
 
                             	<li><div class = "formLeft" ><span class = "strEdition">Edition: </span></div>
-                                	<div class = "formRight"><input type = "text" name = "bookEdition"></div>
+                                	<div class = "formRight"><input type = "text" name = "bookEdition"  maxlength="16" ></div>
                             	</li>
 
                             	<li><div class = "formLeft" ><span class = "strBookDesc">Description: </span></div>
-                                	<div class = "formRight"><textarea name="bookDesc" rows="3" cols="22"></textarea></div>
+                                	<div class = "formRight"><textarea name="bookDesc" rows="3" cols="22" maxlength="256" ></textarea></div>
                             	</li>
 
                             	<li><div class = "formLeft" ><span class = "strOriginalPrice">Original Price: </span></div>
-                                	<div class = "formRight"><input type = "text" name = 'OriginalPrice'></div>
+                                	<div class = "formRight"><input type = "text" name = 'OriginalPrice'  placeholder="(e.g. 100.00)"  maxlength="16"  title="Follow the format [dollar_value.cents_value]  e.g. 100.00"></div>
                             	</li>
 
                             	<li><div class = "formLeft" ><span class = "strCurrentPrice">Current Price: </span></div>
-                                	<div class = "formRight"><input type = "text" name = 'CurrentPrice' required>
+                                	<div class = "formRight"><input type = "text" name = 'CurrentPrice'  placeholder="(e.g. 100.00)"  maxlength="16"  title="Follow the format [dollar_value.cents_value]  e.g. 100.00">
                                 	<font color="red">*</font>
                                 	</div>
                             	</li>
 
                             	<li><div class = "formLeft" ><span class = "strContactPhone">Telephone: </span></div>
-                                	<div class = "formRight"><input type = "text" name ='telephone' required maxlength="10">
+                                	<div class = "formRight"><input type = "text" name ='telephone'  maxlength="10"  title="Allowed Characters:[0-9]. Length Requirement:10">
                                 	<font color="red">*</font>
                                 	</div>
                             	</li>
 
                             	<li><div class = "formLeft" ><span class = "strContactEmail">Email: </span></div>
-                                	<div class = "formRight"><input type = "email" name = 'email' required> 
+                                	<div class = "formRight"><input type = "text" name = 'email'  maxlength="64"> 
                                 	<font color="red">*</font>
                                 	</div>
                             	</li>
